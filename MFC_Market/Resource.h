@@ -31,6 +31,8 @@
 #define IDD_LOGOUT                      327
 #define IDD_GOODS_MANAGEMENT            329
 #define IDD_PURCHASE                    331
+#define IDD_DIALOG1                     343
+#define IDD_RECEIPT_REFUND              351
 #define IDC_TITLE                       1000
 #define IDC_EDIT1                       1001
 #define IDC_EDIT2                       1002
@@ -50,7 +52,6 @@
 #define IDC_CHANGED_ID                  1016
 #define IDC_DELETE_BUTTON               1017
 #define IDC_CHANGE_BUTTON               1018
-#define IDC_LIST1                       1018
 #define IDC_SAVE_BUTTON                 1019
 #define IDC_CHANGED_DISCOUNT            1020
 #define IDC_CART_LIST                   1025
@@ -67,14 +68,18 @@
 #define IDC_BUY_BUTTO                   1040
 #define IDC_TOCART_QUANTITY             1041
 #define IDC_TOCART_ID                   1042
+#define IDC_LIST2                       1050
+#define IDCANCEL                        1052
+#define IDC_BUTTON1                     1055
+#define IDC_BUTTON2                     1056
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        339
+#define _APS_NEXT_RESOURCE_VALUE        353
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1045
+#define _APS_NEXT_CONTROL_VALUE         1058
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

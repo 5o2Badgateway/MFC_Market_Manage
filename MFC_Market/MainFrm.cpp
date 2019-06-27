@@ -12,6 +12,7 @@
 #include "GoodsManageView.h"
 #include "PurchaseView.h"
 #include "MainFrm.h"
+#include "Receipt_Refund.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -28,7 +29,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_MESSAGE(EDIT_USERS_MANAGEMENT, OnEditChanges)
 	ON_MESSAGE(EDIT_GOODS_MANAGEMENT, OnEditChanges)
 	ON_MESSAGE(EDIT_PURCHASE, OnEditChanges)
-	ON_MESSAGE(EDIT_RECEIPT_REFOUNDS, OnEditChanges)
+	ON_MESSAGE(EDIT_RECEIPT_REFUNDS, OnEditChanges)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 END_MESSAGE_MAP()
@@ -239,8 +240,18 @@ LRESULT CMainFrame::OnEditChanges(WPARAM message, LPARAM lparam)
 	}
 						break;
 		break;
-	case EDIT_RECEIPT_REFOUNDS:
-		break;
+	case EDIT_RECEIPT_REFUNDS: {
+		cContext.m_pNewViewClass = RUNTIME_CLASS(Receipt_Refund);
+		cContext.m_pCurrentFrame = this;
+		cContext.m_pLastView = (CFormView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.DeleteView(0, 1);
+		windowSplitter.CreateView(0, 1, RUNTIME_CLASS(Receipt_Refund), CSize(500, 600), &cContext);
+		Receipt_Refund* newView = (Receipt_Refund*)windowSplitter.GetPane(0, 1);
+		windowSplitter.RecalcLayout();
+		newView->OnInitialUpdate();
+		windowSplitter.SetActivePane(0, 1);
+	}
+							   break;
 	default:
 		break;
 	}
