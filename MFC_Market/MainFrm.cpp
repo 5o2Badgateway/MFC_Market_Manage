@@ -10,9 +10,9 @@
 #include "LoginView.h"
 #include "LogoutView.h"
 #include "GoodsManageView.h"
-#include "UsersManageView.h"
 #include "PurchaseView.h"
 #include "MainFrm.h"
+#include "Receipt_Refund.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -29,7 +29,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_MESSAGE(EDIT_USERS_MANAGEMENT, OnEditChanges)
 	ON_MESSAGE(EDIT_GOODS_MANAGEMENT, OnEditChanges)
 	ON_MESSAGE(EDIT_PURCHASE, OnEditChanges)
-	ON_MESSAGE(EDIT_RECEIPT_REFOUNDS, OnEditChanges)
+	ON_MESSAGE(EDIT_RECEIPT_REFUNDS, OnEditChanges)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 END_MESSAGE_MAP()
@@ -66,7 +66,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
 
 	MoveWindow(0, 0, 800, 600);
-	SetIcon(AfxGetApp()->LoadIconW(IDI_APERTURE), 1);
+
 	return 0;
 }
 
@@ -189,39 +189,71 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 LRESULT CMainFrame::OnEditChanges(WPARAM message, LPARAM lparam)
 {
 	switch (message) {
-	case EDIT_LOGIN: 
-		SetLeftPage<LoginView>();
+	case EDIT_LOGIN: {
+		cContext.m_pNewViewClass = RUNTIME_CLASS(LoginView);
+		cContext.m_pCurrentFrame = this;
+		cContext.m_pLastView = (CFormView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.DeleteView(0, 1);
+		windowSplitter.CreateView(0, 1, RUNTIME_CLASS(LoginView), CSize(500, 600), &cContext);
+		LoginView* newView = (LoginView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.RecalcLayout();
+		newView->OnInitialUpdate();
+		windowSplitter.SetActivePane(0, 1);
+	}
+					 break;
+	case EDIT_LOGOUT: {
+		cContext.m_pNewViewClass = RUNTIME_CLASS(LogoutView);
+		cContext.m_pCurrentFrame = this;
+		cContext.m_pLastView = (CFormView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.DeleteView(0, 1);
+		windowSplitter.CreateView(0, 1, RUNTIME_CLASS(LogoutView), CSize(500, 600), &cContext);
+		LogoutView* newView = (LogoutView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.RecalcLayout();
+		newView->OnInitialUpdate();
+		windowSplitter.SetActivePane(0, 1);
+	}
 		break;
-	case EDIT_LOGOUT: 
-		SetLeftPage<LogoutView>();
-		break;
-	case EDIT_GOODS_MANAGEMENT: 
-		SetLeftPage<GoodsManageView>();
+	case EDIT_GOODS_MANAGEMENT: {
+		cContext.m_pNewViewClass = RUNTIME_CLASS(GoodsManageView);
+		cContext.m_pCurrentFrame = this;
+		cContext.m_pLastView = (CFormView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.DeleteView(0, 1);
+		windowSplitter.CreateView(0, 1, RUNTIME_CLASS(GoodsManageView), CSize(500, 600), &cContext);
+		GoodsManageView* newView = (GoodsManageView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.RecalcLayout();
+		newView->OnInitialUpdate();
+		windowSplitter.SetActivePane(0, 1);
+	}
 		break;
 	case EDIT_USERS_MANAGEMENT:
-		SetLeftPage<UsersManageView>();
 		break;
-	case EDIT_PURCHASE: 
-		SetLeftPage<PurchaseView>();
+	case EDIT_PURCHASE: {
+		cContext.m_pNewViewClass = RUNTIME_CLASS(PurchaseView);
+		cContext.m_pCurrentFrame = this;
+		cContext.m_pLastView = (CFormView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.DeleteView(0, 1);
+		windowSplitter.CreateView(0, 1, RUNTIME_CLASS(PurchaseView), CSize(500, 600), &cContext);
+		PurchaseView* newView = (PurchaseView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.RecalcLayout();
+		newView->OnInitialUpdate();
+		windowSplitter.SetActivePane(0, 1);
+	}
+						break;
 		break;
-	case EDIT_RECEIPT_REFOUNDS:
-		break;
+	case EDIT_RECEIPT_REFUNDS: {
+		cContext.m_pNewViewClass = RUNTIME_CLASS(Receipt_Refund);
+		cContext.m_pCurrentFrame = this;
+		cContext.m_pLastView = (CFormView*)windowSplitter.GetPane(0, 1);
+		windowSplitter.DeleteView(0, 1);
+		windowSplitter.CreateView(0, 1, RUNTIME_CLASS(Receipt_Refund), CSize(500, 600), &cContext);
+		Receipt_Refund* newView = (Receipt_Refund*)windowSplitter.GetPane(0, 1);
+		windowSplitter.RecalcLayout();
+		newView->OnInitialUpdate();
+		windowSplitter.SetActivePane(0, 1);
+	}
+							   break;
 	default:
 		break;
 	}
 	return 0;
-}
-
-template<class T>
-void CMainFrame::SetLeftPage()
-{
-	cContext.m_pNewViewClass = RUNTIME_CLASS(T);
-	cContext.m_pCurrentFrame = this;
-	cContext.m_pLastView = (CFormView*)windowSplitter.GetPane(0, 1);
-	windowSplitter.DeleteView(0, 1);
-	windowSplitter.CreateView(0, 1, RUNTIME_CLASS(T), CSize(500, 600), &cContext);
-	T* newView = (T*)windowSplitter.GetPane(0, 1);
-	windowSplitter.RecalcLayout();
-	newView->OnInitialUpdate();
-	windowSplitter.SetActivePane(0, 1);
 }
