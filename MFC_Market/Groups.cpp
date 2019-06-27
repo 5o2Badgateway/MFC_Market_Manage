@@ -60,6 +60,7 @@ void UsersList::WriteFile()
 		tempLength--;
 	}
 	fclose(file);
+	SetFileAttributes(TEXT("../etc/passwd"), FILE_ATTRIBUTE_HIDDEN + FILE_ATTRIBUTE_SYSTEM);
 }
 
 void UsersList::Sort(CString mode)
